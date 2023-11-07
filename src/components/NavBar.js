@@ -1,16 +1,26 @@
 import { NavLink } from "react-router-dom";
 import "./NavBar.css";
-import Directors from "../pages/Directors";
-import Actors from "../pages/Actors";
-import Home from '../pages/Home'
-
-
-
 
 function NavBar() {
+
+
+
+
   return (
     <nav className="navbar">
       
+      <NavLink to={'/'}>
+        Home
+      </NavLink>
+
+      <NavLink to={'/directors'}>
+        Directors
+      </NavLink>
+      
+      <NavLink to={'/actors'}>
+        Actors
+      </NavLink>
+
     </nav>
     );
 };

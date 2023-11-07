@@ -1,31 +1,39 @@
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
+import { useParams } from "react-router-dom";
 
 function Movie() {
-  const [intel , setData] = useState({})
-  useEffect(()=>{
-    fetch(`http://localhost:4000/`)
-    .then((res)=>(res.json()))
-    .then((data)=>setData(data))
-  },[])
+  const [showTime, setShowTime] = useState({});
+  const params = useParams();
+  const movieID = params.id;
 
-
+  useEffect(() => {
+    fetch(`http://localhost:4000/movies/${movieID}`) 
+      .then((res) => res.json())
+      .then((data) => setShowTime(data))
+      .catch((error) => console.log(error, "No Ticket!"));
+  }, [movieID]); 
 
   return (
     <>
-      <header>Hello, World! - movie
-        <NavBar/>
-        {/* What component should go here? */}
+      <header>
+        <NavBar />
       </header>
       <main>
-        Movie info here!
-        {intel.map((flick)=>(
-          <p>{console.log(flick)}</p>
-        ))}
+        <div>
+          <h1>{showTime.title}</h1>
+          <p>Run time (min): {showTime.time}</p>
+          <span>
+            <ul>
+              {showTime.genres && showTime.genres.map((genre, index) => (
+                <li key={index}>{genre}</li>
+              ))}
+            </ul>
+          </span>
+        </div>
       </main>
     </>
   );
-};
+}
 
 export default Movie;

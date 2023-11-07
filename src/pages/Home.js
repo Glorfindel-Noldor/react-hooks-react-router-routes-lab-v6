@@ -1,30 +1,35 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
 import NavBar from "../components/NavBar";
-import Movie from "./Movie";
+import MovieCard from "../components/MovieCard";
 
 function Home() {
-  const [movieInfo, setMovieInfo] = useState({});
-  
-  useEffect(() => {
-    fetch('http://localhost:4000/')
-      .then((res) => res.json())
-      .then((data) => setMovieInfo(data))
-      .catch(error => console.error(error, `we ain't found ship!`));
-  }, []);
+  const [cinema , setCinema]=useState([])
+  useEffect(()=>{
+    fetch('http://localhost:4000/movies')
+    .then((res)=>(res.json()))
+    .then(data=>setCinema(data))
+    .catch((error)=>console.log(error,'we aint find ship'))
 
+  },[])
+  
+  
+  const MovieList = cinema.map((flick)=>(
+    <MovieCard title={flick.title} id={flick.id} />
+  ))
+  
+  
   return (
     <>
-      <header>Hello, World!-home
-        <NavBar />
-        {/* What component should go here? */}
+      <header>
+        <NavBar/>
       </header>
       <main>
-        {Array.isArray(movieInfo) && movieInfo.map((film, index) => (
-          <Movie key={index} movie={film} />
-        ))}
+        <h1>Home Page</h1>
+        {MovieList}
       </main>
     </>
   );
-}
+};
 
 export default Home;
